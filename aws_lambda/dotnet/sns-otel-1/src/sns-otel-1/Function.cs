@@ -47,15 +47,15 @@ public class Function
             .Build();
 
         _tracer = tracerProvider.GetTracer(serviceName);
-        using (var span = _tracer.StartActiveSpan("ParentActivity"))
+        using (var span = _tracer.StartActiveSpan("ActivityOne"))
         {
             var otherLibraryTracer = tracerProvider.GetTracer("OtherLibrary", version: "4.0.0");
-            using (var otherSpan = otherLibraryTracer.StartActiveSpan("Response"))
+            using (var otherSpan = otherLibraryTracer.StartActiveSpan("ActivityTwo"))
             {
                 Console.WriteLine($"[Main] Started span with span_id: {span.Context.SpanId}");
             }
         }
-        using (var childActivity = MyActivitySource.StartActivity("ChildActivity"))
+        using (var childActivity = MyActivitySource.StartActivity("ActivityThree"))
         {
             foreach(var record in evnt.Records)
             {
