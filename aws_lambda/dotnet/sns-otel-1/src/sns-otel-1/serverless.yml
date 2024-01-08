@@ -1,0 +1,31 @@
+service: sns-otel-1
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: dotnet6
+  region: us-east-1
+  stage: dev
+
+package:
+  individually: true
+
+functions:
+  hello:
+    handler: sns-otel-1::sns_otel_1.Function::FunctionHandler
+    # you can add packaging information here
+    package:
+      artifact: bin/Release/net6.0/hello.zip
+    events:
+      - sns: greeter-topic
+    environment:
+      DD_TRACE_OTEL_ENABLED: true
+
+plugins:
+  - serverless-plugin-datadog
+
+custom:
+  datadog:
+    addExtension: true
+    apiKey: ${env:DATADOG_API_KEY}
