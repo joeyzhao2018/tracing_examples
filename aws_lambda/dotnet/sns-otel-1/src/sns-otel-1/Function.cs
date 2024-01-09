@@ -46,7 +46,7 @@ public class Function
             .AddConsoleExporter()
             .Build();
 
-        _tracer = tracerProvider.GetTracer(serviceName);
+        _tracer = tracerProvider.GetTracer(serviceName + "-dedup-postfix");
         using (var span = _tracer.StartActiveSpan("ActivityOne"))
         {
             var otherLibraryTracer = tracerProvider.GetTracer("OtherLibrary", version: "4.0.0");
