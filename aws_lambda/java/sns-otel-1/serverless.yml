@@ -1,0 +1,28 @@
+service: sns-otel-1
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: java11
+  stage: dev
+  region: us-east-1
+
+package:
+  artifact: build/distributions/hello.zip
+
+functions:
+  hello:
+    handler: com.serverless.Handler
+    events:
+      - sns: greeter-topic
+    environment:
+      DD_TRACE_OTEL_ENABLED: true
+      OTEL_SERVICE_NAME: sns-otel-1
+
+plugins:
+  - serverless-plugin-datadog
+
+custom:
+  datadog:
+    addExtension: true
+    apiKey: ${env:DATADOG_API_KEY}
