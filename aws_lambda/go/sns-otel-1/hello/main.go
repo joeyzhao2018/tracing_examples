@@ -21,7 +21,7 @@ func Handler(ctx context.Context, snsEvent events.SNSEvent) {
 	provider := ddotel.NewTracerProvider()  //otel
 	defer provider.Shutdown() // otel
 
-    otel.SetTracerProvider(provider) //otel
+	otel.SetTracerProvider(provider) //otel
 	tracer := provider.Tracer("sns-otel-1") //otel
 
 	_, span := tracer.Start(ctx, "hello-span")  //otel
