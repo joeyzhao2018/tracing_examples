@@ -22,7 +22,7 @@ func Handler(ctx context.Context, snsEvent events.SNSEvent) {
 	defer provider.Shutdown() // otel
 
 	otel.SetTracerProvider(provider) //otel
-	tracer := provider.Tracer("sns-otel-1") //otel
+	tracer := otel.Tracer("sns-otel-1") //otel
 
 	_, span := tracer.Start(ctx, "hello-span")  //otel
 
