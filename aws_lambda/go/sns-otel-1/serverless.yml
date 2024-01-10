@@ -1,0 +1,33 @@
+
+service: sns-otel-1
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: go1.x
+  stage: dev
+  region: us-east-1
+
+
+
+package:
+  patterns:
+    - ./hello/bin/**
+
+functions:
+  hello:
+    handler: hello/bin/hello
+    events:
+      - sns: greeter-topic
+    environment:
+      DD_TRACE_OTEL_ENABLED: true
+      DD_UNIVERSAL_INSTRUMENTATION: true
+
+plugins:
+  - serverless-plugin-datadog
+
+custom:
+  datadog:
+    addExtension: true
+    apiKey: ${env:DATADOG_API_KEY}
